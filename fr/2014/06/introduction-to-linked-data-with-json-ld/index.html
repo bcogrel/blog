@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>  Introduction au Web des données avec JSON-LD
+ | Benjamin Cogrel</title>
+
+    <meta name="author" content="Benjamin Cogrel"/>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css"/>
+    <link rel="stylesheet" href="https://blog.bcgl.fr/fr/theme/css/jquery.mglass.css"/>
+    <link rel="stylesheet" href="https://blog.bcgl.fr/fr/theme/css/pygment-solarized-dark.css"/>
+    <link rel="stylesheet" href="https://blog.bcgl.fr/fr/theme/css/style.css"/>
+
+    <!-- Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <link href='https://fonts.googleapis.com/css?family=Istok+Web' rel='stylesheet' type='text/css'/>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'/>
+      <link href='https://fonts.googleapis.com/css?family=Expletus+Sans' rel='stylesheet' type='text/css'>
+
+
+    <link rel="icon" href="https://blog.bcgl.fr/fr/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://blog.bcgl.fr/fr/favicon.ico" type="image/x-icon">
+
+    <!-- Feeds -->
+      <link href="https://blog.bcgl.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Benjamin Cogrel - All posts - Atom Feed"/>
+      <link href="https://blog.bcgl.fr/feeds/francais.atom.xml" type="application/atom+xml" rel="alternate" title="Benjamin Cogrel - Category: Français - Atom Feed"/>
+
+
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <div class="page-header">
+        <h1><a href="https://blog.bcgl.fr/fr">Benjamin Cogrel</a> <small>Automatisation contemporaine</small></h1>
+      </div>
+
+      <nav class="navbar navbar-default">
+
+        <!-- Hamburger menu for mobile -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#plumage-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="https://blog.bcgl.fr/fr" title="Automatisation contemporaine">Benjamin Cogrel</a>
+        </div>
+
+        <!-- Menus and search forms -->
+        <div class="collapse navbar-collapse" id="plumage-navbar-collapse-1">
+
+          <ul class="nav navbar-nav">
+<li >
+                <a href="/">English</a>
+              </li>
+<li >
+                <a href="/fr">Français</a>
+              </li>
+          </ul>
+
+
+
+        </div>
+
+      </nav>
+
+    </div>
+
+
+    <div class="container main">
+
+
+      <div class="row">
+        <div class=" col-md-9  ">
+  <h1>
+    <a href="https://blog.bcgl.fr/fr/2014/06/introduction-to-linked-data-with-json-ld/" rel="bookmark" title="Permalink to Introduction au Web des données avec JSON-LD">Introduction au Web des données avec <span class="caps">JSON</span>-<span class="caps">LD</span></a>
+  </h1>
+        </div>
+      </div>
+
+      <div class="row">
+
+
+        <div class=" col-md-9 " id="content" role="main">
+      Translations:
+      <a href="https://blog.bcgl.fr/fr/../2014/06/introduction-to-linked-data-with-json-ld/">en</a>
+
+
+  <div>
+    <p>Pour inaugurer ce blog, je vais vous parler d&#8217;une <a href="http://www.w3.org/TR/json-ld/">nouvelle
+recommandation du <span class="caps">W3C</span></a> que je trouve très
+intéressante : il s&#8217;agit de <a href="http://json-ld.org/"><span class="caps">JSON</span> for Linking Data</a>
+( <span class="caps">JSON</span>-<span class="caps">LD</span>)<sup id="fnref-1"><a class="footnote-ref" href="#fn-1">1</a></sup>.
+Cela me donne également l&#8217;occasion d&#8217;introduire la thématique du <a href="https://fr.wikipedia.org/wiki/Web_des_donn%C3%A9es">Web
+des données</a>
+<em>(Linked Data)</em> qui sera, à coup sûr, un thème récurrent de ce&nbsp;blog.</p>
+<h1>Problème</h1>
+<p>Commençons par la question suivante : comment peut-on faciliter
+l&#8217;exploitation de données provenant de sources différentes? <a href="http://www.webat25.org/">Depuis déjà
+25 ans</a>, le Web apporte une solution élégante
+aux lecteurs humains, en leur permettant, par l&#8217;intermédiaire de
+<em>liens</em>, de naviguer aisément de site en site ou de visualiser plusieurs
+documents (comme des images) dans la même page <span class="caps">HTML</span>. L&#8217;extraction
+d&#8217;information à partir de ces pages <span class="caps">HTML</span> est, pour nous autres humains,
+une tâche assez facile; toutefois, il n&#8217;en va pas de même pour les
+machines. Pour que ces dernières puissent exploiter ces données, il
+existe deux grandes approches&nbsp;:</p>
+<ol>
+<li>Un site Web peut proposer une autre représentation
+    (<a href="http://json.org/"><span class="caps">JSON</span></a>, <a href="http://www.w3.org/TeamSubmission/turtle/">Turtle
+    <span class="caps">RDF</span></a>, etc.) ou enrichir la
+    page <span class="caps">HTML</span> (avec, par exemple, des <a href="http://rdfa.info/">annotations
+    <span class="caps">RDF</span></a>) afin qu&#8217;un programme client puisse en
+    extraire plus facilement les données. Cette approche est d&#8217;autant
+    plus souhaitable que les pages <span class="caps">HTML</span> sont souvent générées à partir
+    de données bien structurées, généralement stockées en base de
+    données. <a href="http://www.ted.com/talks/tim_berners_lee_on_the_next_web">Ce sont avant tout ces données riches qui nous
+    intéressent</a>.
+    Nous allons nous concentrer aujourd&#8217;hui sur cette approche et voir
+    comment les données issues de plusieurs sites peuvent être&nbsp;fusionnées.</li>
+<li>Le programme client peut avoir recours à des <a href="https://fr.wikipedia.org/wiki/Traitement_automatique_du_langage_naturel">techniques de
+    traitement automatique du langage
+    naturel</a>.
+    Ces techniques sont plus complexes, moins précises mais néanmoins
+    très utiles car elles ne nécessitent aucun changement de la part du
+    site Web. Les moteurs de recherche ont bien entendu massivement
+    recours à ces techniques car une large part des données publiées sur
+    le Web n&#8217;est disponible que sous une forme peu structurée; néanmoins
+    <a href="http://schema.org/">ils n&#8217;en sont pas moins friands de données
+    structurées</a>.</li>
+</ol>
+<h1><span class="caps">JSON</span></h1>
+<p>Ces dernières années, <span class="caps">JSON</span> est le format en vogue auprès des
+développeurs Web. Il est tout simplement concis et très simple. Sans
+plus attendre, voici les trois fichiers <span class="caps">JSON</span> issus de sites différents
+dont nous allons extraire les informations&nbsp;:</p>
+<div class="highlight"><pre><span></span><span class="err">#project_v</span><span class="mi">1</span>
+<span class="p">{</span><span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Super project&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;home&quot;</span><span class="p">:</span> <span class="s2">&quot;http://super-project.example.com/&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;developers&quot;</span><span class="p">:</span> <span class="p">[</span>
+     <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;John Doe&quot;</span><span class="p">},</span>
+     <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Roger Smith&quot;</span><span class="p">}</span>
+ <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="err">#comment_v</span><span class="mi">1</span>
+<span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;http://blog.example.net/dupont/comment/5&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;author&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;fullname&quot;</span><span class="p">:</span> <span class="s2">&quot;Francis Dupont&quot;</span><span class="p">},</span>
+ <span class="nt">&quot;about&quot;</span><span class="p">:</span> <span class="p">{</span>
+     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Project&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;http://super-project.example.com/&quot;</span>
+ <span class="p">},</span>
+ <span class="nt">&quot;comment_en&quot;</span><span class="p">:</span> <span class="s2">&quot;Super-project is a masterpiece.&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;comment_fr&quot;</span><span class="p">:</span> <span class="s2">&quot;Super-project est un chef-d&#39;œuvre.&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Comment&quot;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="err">#person_v</span><span class="mi">1</span>
+<span class="p">{</span><span class="nt">&quot;full_name&quot;</span><span class="p">:</span> <span class="s2">&quot;John Doe&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;photo&quot;</span><span class="p">:</span> <span class="s2">&quot;http://doe.example.org/john.jpg&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;blog&quot;</span><span class="p">:</span> <span class="s2">&quot;http://blog.example.org/&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;projects&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span><span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;http://super-project.example.com/&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;http://example.org/doe/otherproject&quot;</span><span class="p">}</span>
+ <span class="p">]</span>
+<span class="p">}</span> 
+</pre></div>
+
+
+<p>Le <span class="caps">JSON</span> étant assez facile à lire, vous avez peut-être déjà compris
+qu&#8217;il s&#8217;agissait de la description d&#8217;un projet, d&#8217;un commentaire à son
+sujet et d&#8217;informations concernant un de ses&nbsp;développeurs.</p>
+<p>Notre objectif est de fusionner automatiquement ces données pour pouvoir
+ensuite faire une requête du type : «Quels sont les blogs des
+développeurs du projet dont parle ce commentaire?». Je suppose que vous
+êtes déjà capable de répondre à cette question de façon quasi-certaine.
+Par contre, pour déléguer cette tâche à un programme générique, il va
+nous falloir apporter quelques&nbsp;précisions.</p>
+<h1>Identifiants</h1>
+<p>Comme ces informations viennent de trois sites différents, nous ne
+pouvons pas être certains que deux noms de personnes désignent la même
+personne dès que l&#8217;on sort d&#8217;un cadre local sans prendre en compte
+d&#8217;autres informations<sup id="fnref-2"><a class="footnote-ref" href="#fn-2">2</a></sup>.  C&#8217;est un problème bien
+connu des administrations et des sites ayant des millions de comptes
+utilisateurs.  Nous avons besoin d&#8217;identifiants globaux pour désigner
+ces personnes. Pour résoudre ce problème, nous allons utiliser le
+mécanisme d&#8217;identification globale offert par le Web : l&#8217;<a href="http://fr.slideshare.net/fabien_gandon/quand-le-lien-fait-sens/11"><em>Universal
+Resource
+Identifier</em></a>
+(<span class="caps">URI</span>).</p>
+<p>Voici les nouvelles versions modifiées des fichiers <span class="caps">JSON</span> donnant une <span class="caps">URI</span>
+à chacune des personnes&nbsp;:</p>
+<div class="highlight"><pre><span></span><span class="err">#project_v</span><span class="mi">2</span>
+<span class="p">{</span><span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Super project&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;home&quot;</span><span class="p">:</span> <span class="s2">&quot;http://super-project.example.com/&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;developers&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;John Doe&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;http://doe.example.org/john/profile#me&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Roger Smith&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;http://smith.example.org/roger/profile#me&quot;</span>
+        <span class="p">}</span>
+ <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="err">#comment_v</span><span class="mi">2</span>
+<span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;http://blog.example.net/dupont/comment/5&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;author&quot;</span><span class="p">:</span> <span class="p">{</span>
+     <span class="nt">&quot;fullname&quot;</span><span class="p">:</span> <span class="s2">&quot;Francis Dupont&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;http://dupont.example.net/#francis&quot;</span>
+ <span class="p">},</span>
+ <span class="nt">&quot;about&quot;</span><span class="p">:</span> <span class="p">{</span>
+     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Project&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;http://super-project.example.com/&quot;</span>
+ <span class="p">},</span>
+ <span class="nt">&quot;comment_en&quot;</span><span class="p">:</span> <span class="s2">&quot;Super-project is a masterpiece.&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;comment_fr&quot;</span><span class="p">:</span> <span class="s2">&quot;Super-project est un chef-d&#39;œuvre.&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Comment&quot;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="err">#person_v</span><span class="mi">2</span>
+<span class="p">{</span><span class="nt">&quot;full_name&quot;</span><span class="p">:</span> <span class="s2">&quot;John Doe&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;http://doe.example.org/john/profile#me&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;photo&quot;</span><span class="p">:</span> <span class="s2">&quot;http://doe.example.org/john.jpg&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;blog&quot;</span><span class="p">:</span> <span class="s2">&quot;http://blog.example.org/&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;projects&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span><span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;http://super-project.example.com/&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;http://example.org/doe/otherproject&quot;</span><span class="p">}</span>
+ <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h1>Vocabulaire</h1>
+<p>Avant de pouvoir requêter ces données, il est nécessaire d&#8217;apporter une
+dernière précision: qu&#8217;entendons par «href», «id», «name», «fullname»,
+«full_name», etc.? S&#8217;agit-il parfois de la même chose? Comment un
+programme peut-il le&nbsp;savoir?</p>
+<p>Comme pour les noms de personnes, l&#8217;idée est d&#8217;associer des identifiants
+globaux à ces propriétés. Ainsi lorsque deux propriétés ont le même
+identifiant alors elles parlent de la même chose<sup id="fnref-3"><a class="footnote-ref" href="#fn-3">3</a></sup>. En associant par exemple les propriétés «name», «fullname» et «full_name» à l&#8217;<span class="caps">URI</span>
+<a href="http://xmlns.com/foaf/0.1/name">http://xmlns.com/foaf/0.1/name</a>, on sait désormais que ces termes sont
+équivalents et, en bonus comme c&#8217;est une
+<a href="https://fr.wikipedia.org/wiki/Identifiants_uniformis%C3%A9s_de_ressource#Relation_avec_les_URL_et_URN"><span class="caps">URL</span></a>,
+on a accès à <a href="http://xmlns.com/foaf/spec/#term_name">leur définition</a>.</p>
+<p>Comment fait-on en pratique pour associer des termes à des <span class="caps">URI</span>? C&#8217;est là
+que <span class="caps">JSON</span>-<span class="caps">LD</span> entre en jeu. <span class="caps">JSON</span>-<span class="caps">LD</span> introduit la notion de
+<a href="http://www.w3.org/TR/json-ld/#the-context">contexte</a><sup id="fnref-4"><a class="footnote-ref" href="#fn-4">4</a></sup> : il suffit d&#8217;ajouter un lien vers un fichier de
+contexte, soit à l&#8217;intérieur du fichier <span class="caps">JSON</span>,<a href="http://www.w3.org/TR/json-ld/#interpreting-json-as-json-ld">soit dans une entête
+<span class="caps">HTTP</span></a> ou
+soit par une méthode tierce<sup id="fnref-5"><a class="footnote-ref" href="#fn-5">5</a></sup>.</p>
+<p>Par exemple, la description du projet devient la suivante&nbsp;:</p>
+<div class="highlight"><pre><span></span><span class="err">#project_v</span><span class="mf">2.5</span>
+<span class="p">{</span><span class="nt">&quot;@context&quot;</span><span class="p">:</span> <span class="s2">&quot;http://example.com/project.jsonld&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Super project&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;home&quot;</span><span class="p">:</span> <span class="s2">&quot;http://super-project.example.com/&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;developers&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;John Doe&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;http://doe.example.org/john/profile#me&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Roger Smith&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;http://smith.example.org/roger/profile#me&quot;</span>
+        <span class="p">}</span>
+ <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Voici les trois fichiers de contexte (je n&#8217;entre pas ici dans les
+détails mais vous pouvez consulter <a href="http://www.w3.org/TR/json-ld/">la
+spécification</a> qui, je tiens à le
+souligner, est remarquable par son&nbsp;accessibilité):</p>
+<div class="highlight"><pre><span></span><span class="err">#project_ctx</span>
+<span class="p">{</span><span class="nt">&quot;@context&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;foaf&quot;</span><span class="p">:</span> <span class="s2">&quot;http://xmlns.com/foaf/0.1/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;doap&quot;</span><span class="p">:</span> <span class="s2">&quot;http://usefulinc.com/ns/doap#&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;@id&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;@type&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;developers&quot;</span><span class="p">:</span> <span class="s2">&quot;doap:developer&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;foaf:name&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;home&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;@id&quot;</span><span class="p">:</span> <span class="s2">&quot;foaf:homepage&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;@id&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;doap:name&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Project&quot;</span><span class="p">:</span> <span class="s2">&quot;doap:Project&quot;</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="err">#comment_ctx</span>
+<span class="p">{</span><span class="nt">&quot;@context&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;foaf&quot;</span><span class="p">:</span> <span class="s2">&quot;http://xmlns.com/foaf/0.1/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;sioc&quot;</span><span class="p">:</span> <span class="s2">&quot;http://rdfs.org/sioc/ns#&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;sioct&quot;</span><span class="p">:</span> <span class="s2">&quot;http://rdfs.org/sioc/types#&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dcterms&quot;</span><span class="p">:</span> <span class="s2">&quot;http://purl.org/dc/terms/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;doap&quot;</span><span class="p">:</span> <span class="s2">&quot;http://usefulinc.com/ns/doap#&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;@id&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;@type&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;fullname&quot;</span><span class="p">:</span> <span class="s2">&quot;foaf:name&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;dcterms:author&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Comment&quot;</span><span class="p">:</span> <span class="s2">&quot;sioct:Comment&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;comment_en&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;@id&quot;</span><span class="p">:</span> <span class="s2">&quot;sioc:content&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;@language&quot;</span><span class="p">:</span> <span class="s2">&quot;en&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;comment_fr&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;@id&quot;</span><span class="p">:</span> <span class="s2">&quot;sioc:content&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;@language&quot;</span><span class="p">:</span> <span class="s2">&quot;fr&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;about&quot;</span><span class="p">:</span> <span class="s2">&quot;sioc:about&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Project&quot;</span><span class="p">:</span> <span class="s2">&quot;doap:Project&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;@id&quot;</span><span class="p">:</span> <span class="s2">&quot;foaf:homepage&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;@id&quot;</span>
+    <span class="p">}</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="err">#person_ctx</span>
+<span class="p">{</span><span class="nt">&quot;@context&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;foaf&quot;</span><span class="p">:</span> <span class="s2">&quot;http://xmlns.com/foaf/0.1/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;doap&quot;</span><span class="p">:</span> <span class="s2">&quot;http://usefulinc.com/ns/doap#&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;@id&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;@type&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;full_name&quot;</span><span class="p">:</span> <span class="s2">&quot;foaf:name&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;photo&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;@id&quot;</span><span class="p">:</span> <span class="s2">&quot;foaf:img&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;@id&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;blog&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;@id&quot;</span><span class="p">:</span> <span class="s2">&quot;foaf:weblog&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;@id&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;projects&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;@reverse&quot;</span><span class="p">:</span> <span class="s2">&quot;doap:developer&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;doap:Project&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;@id&quot;</span><span class="p">:</span> <span class="s2">&quot;foaf:homepage&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;@id&quot;</span>
+    <span class="p">}</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h1>Graphe</h1>
+<p>Dans les deux sections précédentes, nous avons motivé l&#8217;utilisation
+d&#8217;URIs pour identifier les entités
+(<a href="https://fr.wikipedia.org/wiki/Ressource_du_World_Wide_Web">ressources</a>)
+dont on parle ainsi que leurs propriétés. En procédant de la sorte, nous
+venons d&#8217;établir des liens unidirectionnels typés entre ces ressources.
+En effet, pour être décrite, une ressource source <a href="fr.slideshare.net/fabien_gandon/quand-le-lien-fait-sens/7">est liée à une
+ressource cible par l&#8217;intermédiaire d&#8217;une
+propriété</a>, formant
+ainsi un lien. Et qui dit liens, dit toile, dit web. C&#8217;est pour cela que
+l&#8217;on parle d&#8217;un<a href="http://www.ted.com/talks/tim_berners_lee_on_the_next_web">Web de données ou de données
+liées</a>.
+Celui-ci peut être vu comme une extension du Web des documents où l&#8217;on
+parle de tout et non simplement de documents (<a href="https://fr.wikipedia.org/wiki/Identifiants_uniformis%C3%A9s_de_ressource#Relation_avec_les_URL_et_URN">passage de l&#8217;<span class="caps">URL</span> à la
+notion plus générale
+d&#8217;<span class="caps">URI</span></a>)
+et où l&#8217;on explicite le type des&nbsp;liens.</p>
+<p>Le modèle de données de <span class="caps">JSON</span>-<span class="caps">LD</span>, étroitement lié à celui du <a href="http://www.w3.org/TR/rdf11-concepts/">Resource
+Description Framework</a> (<span class="caps">RDF</span>) <sup id="fnref-6"><a class="footnote-ref" href="#fn-6">6</a></sup>,
+repose donc sur des liens unidirectionnels typés et forme en conséquence
+un graphe dirigé étiqueté. Un graphe est une structure mathématique
+flexible qui fusionne très facilement avec d&#8217;autres graphes. Elle se
+prête donc bien à l&#8217;agrégation de différentes sources de&nbsp;données.</p>
+<p>Revenons à la pratique. Maintenant que toutes les informations
+nécessaires sont disponibles, les données peuvent être chargées dans un
+graphe <a href="http://www.w3.org/TR/rdf11-concepts/"><span class="caps">RDF</span></a> à l&#8217;aide de la
+bibliothèque <a href="https://github.com/RDFLib/rdflib/">RDFlib</a> (Python)&nbsp;:</p>
+<div class="highlight"><pre><span></span><span class="c1"># JSON files loaded above...</span>
+<span class="c1"># Context files are URIs</span>
+<span class="kn">from</span> <span class="nn">rdflib</span> <span class="kn">import</span> <span class="n">Graph</span>
+<span class="n">graph</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">()</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">project_v2</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">project_ctx</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;json-ld&quot;</span><span class="p">)</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">person_v2</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">person_ctx</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;json-ld&quot;</span><span class="p">)</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">comment_v2</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">comment_ctx</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;json-ld&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>En voici une représentation graphique (cliquer sur l&#8217;image pour&nbsp;zoomer):</p>
+<p><img alt="Graphe fusionnant les trois sources de
+données" src="https://blog.bcgl.fr/fr/../images/graph-jsonld.png">
+On y remarque 4 nœuds avec des noms étranges commençant par «ub1bL» : il
+s&#8217;agit de nœuds anonymes <em>(blank nodes)</em> qui, de plus, ont tous une
+propriété «foaf:homepage» pointant vers la page d&#8217;accueil du projet
+«Super Project». Vous l&#8217;aurez compris, ces quatre nœuds représentent
+tous le projet «Super Projet», mais faute d&#8217;avoir une <span class="caps">URI</span> commune, la
+bibliothèque <span class="caps">RDF</span> est incapable de le déduire. Cela va compliquer un peu
+notre requête : on aura deux variables («p1» et «p2») au lieu&nbsp;d&#8217;une.</p>
+<p>Les graphes <span class="caps">RDF</span> ont leur propre langage de requête standard
+:<a href="http://www.w3.org/TR/sparql11-query"><span class="caps">SPARQL</span></a>. Voici notre requête et
+ses résultats&nbsp;:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">blog_request</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">... SELECT DISTINCT ?developer ?blog</span>
+<span class="s2">... WHERE {</span>
+<span class="s2">...     &lt;http://blog.example.net/dupont/comment/5&gt; sioc:about ?p1 .</span>
+<span class="s2">...     ?p1 foaf:homepage ?homepage .</span>
+<span class="s2">...     ?p2 foaf:homepage ?homepage .</span>
+<span class="s2">...     ?p2 doap:developer ?developer .</span>
+<span class="s2">...     OPTIONAL { ?developer foaf:weblog ?blog }</span>
+<span class="s2">... }&quot;&quot;&quot;</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">results</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">blog_request</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">dev</span><span class="p">,</span> <span class="n">blog</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+<span class="o">...</span>     <span class="k">if</span> <span class="n">blog</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+<span class="o">...</span>         <span class="k">print</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&#39;s blog: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dev</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">blog</span><span class="p">))</span>
+<span class="o">...</span>     <span class="k">else</span><span class="p">:</span>
+<span class="o">...</span>         <span class="k">print</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&#39;s blog is unknown&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">dev</span><span class="p">)</span>
+<span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">smith</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">roger</span><span class="o">/</span><span class="n">profile</span><span class="c1">#me&#39;s blog is unknown</span>
+<span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">doe</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">john</span><span class="o">/</span><span class="n">profile</span><span class="c1">#me&#39;s blog: http://blog.example.org/</span>
+</pre></div>
+
+
+<h1>Conclusion</h1>
+<p>L&#8217;objectif du Web des données est d&#8217;interconnecter les données
+structurées entre les sites Web et donc de dépasser le <a href="http://www.w3.org/DesignIssues/CloudStorage.html">phénomène des
+silos</a> si présent dans
+le Web&nbsp;2.0.</p>
+<p>La plupart des introductions au Web des données débutent avec <span class="caps">RDF</span>. En
+partant de <span class="caps">JSON</span>, j&#8217;espère que des développeurs Web trouveront cette
+introduction plus&nbsp;concrète.</p>
+<p>Pour finir, je tiens à préciser que mes <a href="https://github.com/bcogrel">projets
+actuels</a> dans ce domaine sont centrés
+davantage sur <span class="caps">RDF</span> que sur <span class="caps">JSON</span>-<span class="caps">LD</span> et c&#8217;est pour cette raison que je suis
+rapidement passé de l&#8217;un à l&#8217;autre. Néanmoins, il est tout à fait
+possible d&#8217;avoir un point de vue plus centré sur <span class="caps">JSON</span>-<span class="caps">LD</span> et d&#8217;effectuer
+un certain nombre de transformations à ce niveau <a href="http://manu.sporny.org/2014/json-ld-origins-2/">sans avoir recours à
+<span class="caps">SPARQL</span> ni à d&#8217;autre format
+<span class="caps">RDF</span></a>.</p>
+<h1>Pour en savoir&nbsp;plus</h1>
+<ul>
+<li><a href="http://www.ted.com/talks/tim_berners_lee_on_the_next_web">The next
+    Web</a>, Tim
+    Berners at <span class="caps">TED</span>.</li>
+<li><a href="https://www.youtube.com/watch?v=vioCbTo3C-4">Présentation de <span class="caps">JSON</span>-<span class="caps">LD</span> en
+    dessins</a> par l&#8217;un de
+    ses&nbsp;auteurs.</li>
+<li>Mon projet d&#8217;<em>Object Linked Data Mapper</em> s&#8217;appuyant sur <span class="caps">JSON</span>-<span class="caps">LD</span> :
+    <a href="https://github.com/oldm/OldMan/">https://github.com/oldm/OldMan/</a></li>
+<li>Introduction au Web des données
+    (<a href="https://www.youtube.com/watch?v=_x1kgr5zrCs">vidéo</a>,
+    <a href="http://fr.slideshare.net/fabien_gandon/quand-le-lien-fait-sens">diapos</a>)
+    et <a href="http://fr.slideshare.net/fabien_gandon/semantic-web-and-linked-data">présentation de l&#8217;ensemble des briques technologiques du Web
+    sémantique</a>par
+    Fabien&nbsp;Gandon.</li>
+<li><a href="http://patterns.dataincubator.org/book/">Linked data patterns</a>.</li>
+<li>Cours en ligne : <a href="http://euclid-project.eu/">Projet Euclid</a>.</li>
+<li><a href="https://www.youtube.com/watch?v=yp8AjMBG87g">Google I/O 2013 - From Structured Data to the Knowledge
+    Graph</a>.</li>
+</ul>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn-1">
+<p><span class="caps">JSON</span> est l&#8217;abréviation de<a href="https://fr.wikipedia.org/wiki/JavaScript_Object_Notation">JavaScript Object Notation</a>.&#160;<a class="footnote-backref" href="#fnref-1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn-2">
+<p>En observant que la description de John Doe
+mentionne le projet, la probabilité qu&#8217;il s&#8217;agisse de bien de la même
+personne augmente de manière significative.&#160;<a class="footnote-backref" href="#fnref-2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn-3">
+<p>Si, dans le cas contraire, elles ont deux identifiants différents, 
+il faudra raisonner pour savoir si elles parlent de la même chose ou non. 
+C’est évidemment plus compliqué et cela sort du cadre de cet article.&#160;<a class="footnote-backref" href="#fnref-3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn-4">
+<p>Le contexte <span class="caps">JSON</span>-<span class="caps">LD</span> est un <a href="http://tools.ietf.org/html/rfc6906">profile (<span class="caps">RFC</span> 6906)</a>
+au sens de l&#8217;<span class="caps">IETF</span>.&#160;<a class="footnote-backref" href="#fnref-4" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn-5">
+<p>Si par exemple vous avez écrit votre propre fichier de contexte.&#160;<a class="footnote-backref" href="#fnref-5" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+<li id="fn-6">
+<p><span class="caps">JSON</span>-<span class="caps">LD</span> supporte tout <span class="caps">RDF</span>, et l&#8217;étend un peu afin de bien s&#8217;intégrer
+dans l&#8217;écosystème <span class="caps">JSON</span>. Le passage de <span class="caps">RDF</span> vers <span class="caps">JSON</span>-<span class="caps">LD</span> se fait sans
+perte. Dans l&#8217;autre sens, il y a un point à connaître : <span class="caps">JSON</span>-<span class="caps">LD</span> <em>tolère</em>
+que certaines clés (propriétés) ne soient pas liées à des <span class="caps">URI</span>, ce qui
+est interdit en <span class="caps">RDF</span> où les propriétés ne peuvent pas être des nœuds
+anonymes <em>(blank nodes)</em>. En conséquence, si l&#8217;on souhaite vraiment que
+ces clés soient conservées lors d&#8217;une sérialisation dans un format <span class="caps">RDF</span>,
+il est indispensable de les convertir en <span class="caps">URI</span>, d&#8217;une manière ou d&#8217;une
+autre. La disparition d&#8217;une propriété suite la conversion d&#8217;un document
+<span class="caps">JSON</span>-<span class="caps">LD</span> vers <span class="caps">RDF</span> indique donc qu&#8217;il manque une règle de correspondance
+clé-<span class="caps">URI</span> dans le contexte <span class="caps">JSON</span>-<span class="caps">LD</span>. <a href="http://www.w3.org/TR/json-ld/#relationship-to-rdf">Pour plus d&#8217;explications, consultez
+la section 9 de la
+spécification</a>.  &#160;<a class="footnote-backref" href="#fnref-6" title="Jump back to footnote 6 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+
+
+
+        </div>
+
+          <div class="col-md-3">
+  <div class="well">
+
+    <p><abbr title="2014-06-03T12:00:00+02:00"><i class="fa fa-calendar"></i> mar. 03 juin 2014</abbr></p>
+
+      <p><address>
+        <i class="fa fa-user"></i> By
+          <a href="https://blog.bcgl.fr/fr/author/benjamin-cogrel.html" rel="author">Benjamin Cogrel</a>
+      </address></p>
+
+    <hr/>
+
+      <p>
+              <a href="https://blog.bcgl.fr/fr/category/francais/" rel="tag"
+                  data-toggle="tooltip" class="label label-info"
+                  title="1 article in this category">Français</a>
+            <a href="/tag/json-ld/" data-toggle="tooltip"
+      class="label label-default"
+      title="1 article with this tag">JSON-LD</a>
+            <a href="/tag/web-des-donnees/" data-toggle="tooltip"
+      class="label label-default"
+      title="1 article with this tag">Web des données</a>
+            <a href="/tag/rdflib/" data-toggle="tooltip"
+      class="label label-default"
+      title="1 article with this tag">rdflib</a>
+            <a href="/tag/web-semantique/" data-toggle="tooltip"
+      class="label label-default"
+      title="1 article with this tag">Web sémantique</a>
+      </p>
+      <hr/>
+
+
+
+  </div>
+            
+          </div>
+
+      </div>
+
+    </div>
+
+    <!-- TODO: make footer sticky -->
+    <footer class="container-fluid">
+      <div class="container">
+        <div class="row">
+
+            <div class="col-md-2">
+                <h5>Comptes en ligne</h5>
+                <ul class="list-unstyled">
+                  <li>  <a href="https://twitter.com/bcogrel">
+      <i class="fa fa-twitter"></i>
+    twitter
+  </a></li>
+                  <li>  <a href="https://github.com/bcogrel">
+      <i class="fa fa-github"></i>
+    github
+  </a></li>
+                </ul>
+            </div>
+            <div class="col-md-2">
+                <h5>Quelques liens</h5>
+                <ul class="list-unstyled">
+                  <li>  <a href="http://ontop.inf.unibz.it/">
+      <img src="https://icons.better-idea.org/icon?url=ontop.inf.unibz.it&size=16" width="16" height="16" class="icon" alt="ontop.inf.unibz.it icon"/>
+    Ontop
+  </a></li>
+                </ul>
+            </div>
+
+          <div class="col-md-2">
+            <h5>Browse content by</h5>
+            <ul class="list-unstyled">
+            </ul>
+          </div>
+
+          <div class="col-md-2 text-muted">
+            <h5>Copyright notice</h5>
+            <p>© Copyright 2014 Benjamin Cogrel.</p>
+              <p>Sauf mention contraire, le contenu de ce site est
+        publié sous la <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">licence
+        CC-BY-NC-SA</a></p>
+          </div>
+
+          <div class="col-md-2 text-muted">
+            <h5>Disclaimer</h5>
+              <p>Les propos exprimés sur ce site le sont à titre personnel.</p>
+          </div>
+
+          <div class="col-md-2">
+              <h5>Feeds</h5>
+              <ul class="list-unstyled">
+                  <li><small><a href="https://blog.bcgl.fr/feeds/all.atom.xml"><i class="fa fa-rss"></i> All posts (Atom)</a></small></li>
+                  <li><small><a href="https://blog.bcgl.fr/feeds/francais.atom.xml"><i class="fa fa-rss"></i> Category: Français (Atom)</a></small></li>
+              </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <h5 class="text-right"><a href="#"><i class="fa fa-arrow-up"></i> Back to top</a></h5>
+
+      <div class="container">
+        <div class="row col-md-12 text-muted text-center">
+          Site generated by <a href="https://getpelican.com"> Pelican</a>.<br/>
+          <a href="https://github.com/kdeldycke/plumage"> Plumage</a> theme by <a href="https://kevin.deldycke.com">Kevin Deldycke</a>.
+        </div>
+      </div>
+
+    </footer>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fitvids/1.1.0/jquery.fitvids.min.js"></script>
+    <script src="https://blog.bcgl.fr/fr/theme/js/jquery.mglass.js"></script>
+    <script src="https://blog.bcgl.fr/fr/theme/js/application.js"></script>
+
+  </body>
+</html>
