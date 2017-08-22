@@ -35,7 +35,7 @@ RELATIVE_URLS = True
 
 MENUITEMS = (
     ('English', '/'),
-    ('Français', '/fr'),
+    ('Français', '/fr/'),
 )
 DISPLAY_PAGES_ON_MENU = False
 DISPLAY_CATEGORIES_ON_MENU = False
