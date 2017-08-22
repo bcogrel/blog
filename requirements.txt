@@ -1,0 +1,6 @@
+pelican >= 3.7
+typogrify
+beautifulsoup
+fabric
+html5lib
+Markdown
