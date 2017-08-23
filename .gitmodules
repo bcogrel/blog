@@ -1,0 +1,6 @@
+[submodule "themes/plumage"]
+	path = themes/plumage
+	url = https://github.com/bcogrel/plumage.git
+[submodule "pelican-plugins"]
+	path = pelican-plugins
+	url = https://github.com/getpelican/pelican-plugins
