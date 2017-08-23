@@ -5,7 +5,9 @@ from __future__ import unicode_literals
 AUTHOR = 'Benjamin Cogrel'
 SITENAME = 'Benjamin Cogrel'
 SITESUBTITLE = 'Contemporary automation'
-SITEURL = 'https://blog.bcgl.fr'
+#Not overloaded by the i18n extension
+SITEROOTURL = 'https://blog.bcgl.fr' 
+SITEURL = SITEROOTURL 
 
 PATH = 'content'
 STATIC_PATHS = ['images']
@@ -64,13 +66,14 @@ I18N_SUBSITES = {
         'COPYRIGHT': '''Sauf mention contraire, le contenu de ce site est
         publié sous la <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">licence
         CC-BY-NC-SA</a>''',
-        'DISCLAIMER': '''Les propos exprimés sur ce site le sont à titre personnel.'''
+        'DISCLAIMER': '''Les propos exprimés sur ce site le sont à titre
+        personnel.'''
         }
     }
 
 
 
-THEME = 'plumage'
+THEME = 'themes/plumage'
 # Plumage specific 
 COPYRIGHT = '''Unless contrary mentioned, the content of this site is published
 under a <a
