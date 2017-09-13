@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Benjamin Cogrel - Français</title><link href="https://blog.bcgl.fr/fr/" rel="alternate"></link><link href="https://blog.bcgl.fr/feeds/francais.atom.xml" rel="self"></link><id>https://blog.bcgl.fr/fr/</id><updated>2014-06-03T12:00:00+02:00</updated><entry><title>Introduction au Web des données avec JSON-LD</title><link href="https://blog.bcgl.fr/fr/2014/06/introduction-to-linked-data-with-json-ld/" rel="alternate"></link><published>2014-06-03T12:00:00+02:00</published><updated>2014-06-03T12:00:00+02:00</updated><author><name>Benjamin Cogrel</name></author><id>tag:blog.bcgl.fr,2014-06-03:/fr/2014/06/introduction-to-linked-data-with-json-ld/</id><summary type="html">&lt;p&gt;Pour inaugurer ce blog, je vais vous parler d&amp;#8217;une &lt;a href="http://www.w3.org/TR/json-ld/"&gt;nouvelle
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Benjamin Cogrel - Français</title><link href="https://blog.bcgl.fr/fr/" rel="alternate"></link><link href="https://blog.bcgl.fr/feeds/francais.atom.xml" rel="self"></link><id>https://blog.bcgl.fr/fr/</id><updated>2017-09-13T12:00:00+02:00</updated><entry><title>Interrogation efficace de bases de données relationnelles avec SPARQL et Ontop (vidéo et tutoriel)</title><link href="https://blog.bcgl.fr/fr/2017/09/atelier-jdev17-ontop/" rel="alternate"></link><published>2017-09-13T12:00:00+02:00</published><updated>2017-09-13T12:00:00+02:00</updated><author><name>Benjamin Cogrel</name></author><id>tag:blog.bcgl.fr,2017-09-13:/fr/2017/09/atelier-jdev17-ontop/</id><summary type="html">&lt;p&gt;À l&amp;#8217;occasion des &lt;a href="http://devlog.cnrs.fr/jdev2017"&gt;Journées du Développement Logiciel 2017&lt;/a&gt;
+qui se sont déroulées à Marseille cet été, j&amp;#8217;ai été invité à animer un 
+&lt;a href="http://devlog.cnrs.fr/jdev2017/t2.a06"&gt;atelier&lt;/a&gt; 
+à propos d&amp;#8217;&lt;a href="http://ontop.inf.unibz.it"&gt;Ontop&lt;/a&gt;, le système &lt;span class="caps"&gt;OBDA&lt;/span&gt;&lt;sup id="fnref-1"&gt;&lt;a class="footnote-ref" href="#fn-1"&gt;1&lt;/a&gt;&lt;/sup&gt; open-source auquel je contribue&amp;nbsp;activement. &lt;/p&gt;
+&lt;p&gt;Cet atelier a commencé par une introduction d&amp;#8217;une heure à l …&lt;/p&gt;</summary><content type="html">&lt;p&gt;À l&amp;#8217;occasion des &lt;a href="http://devlog.cnrs.fr/jdev2017"&gt;Journées du Développement Logiciel 2017&lt;/a&gt;
+qui se sont déroulées à Marseille cet été, j&amp;#8217;ai été invité à animer un 
+&lt;a href="http://devlog.cnrs.fr/jdev2017/t2.a06"&gt;atelier&lt;/a&gt; 
+à propos d&amp;#8217;&lt;a href="http://ontop.inf.unibz.it"&gt;Ontop&lt;/a&gt;, le système &lt;span class="caps"&gt;OBDA&lt;/span&gt;&lt;sup id="fnref-1"&gt;&lt;a class="footnote-ref" href="#fn-1"&gt;1&lt;/a&gt;&lt;/sup&gt; open-source auquel je contribue&amp;nbsp;activement. &lt;/p&gt;
+&lt;p&gt;Cet atelier a commencé par une introduction d&amp;#8217;une heure à l&amp;#8217;approche dite
+&lt;span class="caps"&gt;OBDA&lt;/span&gt;, qui vise à permettre l&amp;#8217;interrogation de bases de données relationnelles
+avec &lt;span class="caps"&gt;SPARQL&lt;/span&gt;, telle qu&amp;#8217;elle est implémentée par Ontop&amp;nbsp;:&lt;/p&gt;
+&lt;iframe src="//amupod.univ-amu.fr/video/0717-jdev2017-t2_a06-interrogation-efficace-de-bases-de-donnees-relationnelles-avec-sparql-et-ontop/?is_iframe=true" size="240" width="640" height="360" style="padding: 0; margin: 0; border:0" allowfullscreen &gt;&lt;/iframe&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/ontop/ontop-examples/raw/master/jdev-2017/slides.pdf"&gt;Diapos&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Cet atelier s&amp;#8217;est ensuite poursuivi par un &lt;a href="https://github.com/ontop/ontop-examples/tree/master/jdev-2017/README.md"&gt;tutoriel&lt;/a&gt;
+que je vous invite également à&amp;nbsp;consulter.&lt;/p&gt;
+&lt;p&gt;Un grand merci aux organisateurs, ce fut une très belle édition&amp;nbsp;!&lt;/p&gt;
+&lt;h3&gt;Quelques&amp;nbsp;liens&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Fiche descriptive de l&amp;#8217;atelier : &lt;a href="http://devlog.cnrs.fr/jdev2017/t2.a06"&gt;http://devlog.cnrs.fr/jdev2017/t2.a06&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Thématique &lt;a href="http://devlog.cnrs.fr/jdev2017/t2"&gt;T2 - Ingénierie et web des données&lt;/a&gt; à laquelle mon atelier était&amp;nbsp;rattaché&lt;/li&gt;
+&lt;li&gt;Ontop : &lt;a href="http://ontop.inf.unibz.it"&gt;http://ontop.inf.unibz.it&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Github : &lt;a href="https://github.com/ontop/ontop"&gt;ontop/ontop&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Twitter : &lt;a href="https://twitter.com/ontop4obda"&gt;@ontop4obda&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="footnote"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn-1"&gt;
+&lt;p&gt;Acronyme d&amp;#8217;&lt;em&gt;Ontology-Based Data Access&lt;/em&gt;&amp;#160;&lt;a class="footnote-backref" href="#fnref-1" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content><category term="Ontop"></category><category term="OBDA"></category><category term="SPARQL"></category><category term="SQL"></category><category term="OWL2QL"></category><category term="RDF"></category><category term="vidéo"></category><category term="atelier"></category></entry><entry><title>Introduction au Web des données avec JSON-LD</title><link href="https://blog.bcgl.fr/fr/2014/06/introduction-to-linked-data-with-json-ld/" rel="alternate"></link><published>2014-06-03T12:00:00+02:00</published><updated>2014-06-03T12:00:00+02:00</updated><author><name>Benjamin Cogrel</name></author><id>tag:blog.bcgl.fr,2014-06-03:/fr/2014/06/introduction-to-linked-data-with-json-ld/</id><summary type="html">&lt;p&gt;Pour inaugurer ce blog, je vais vous parler d&amp;#8217;une &lt;a href="http://www.w3.org/TR/json-ld/"&gt;nouvelle
 recommandation du &lt;span class="caps"&gt;W3C&lt;/span&gt;&lt;/a&gt; que je trouve très
 intéressante : il s&amp;#8217;agit de &lt;a href="http://json-ld.org/"&gt;&lt;span class="caps"&gt;JSON&lt;/span&gt; for Linking Data&lt;/a&gt;
 ( &lt;span class="caps"&gt;JSON&lt;/span&gt;-&lt;span class="caps"&gt;LD&lt;/span&gt;)&lt;sup id="fnref-1"&gt;&lt;a class="footnote-ref" href="#fn-1"&gt;1&lt;/a&gt;&lt;/sup&gt;.
